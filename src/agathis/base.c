@@ -6,7 +6,7 @@
 #if defined(__AVR__)
 #include <avr/wdt.h>
 #include "../hw/gpio.h"
-#include "../platform.h"
+#include "../platform/platform.h"
 #elif defined(__XC16__)
 #include "../hw/gpio.h"
 #include "../platform.h"

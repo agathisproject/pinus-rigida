@@ -8,7 +8,7 @@
 #include <util/delay.h>
 
 #include "hw/uart.h"
-#include "platform.h"
+#include "platform/platform.h"
 #include "agathis/base.h"
 
 static FILE uart0_str = FDEV_SETUP_STREAM(uart0_putchar, uart0_getchar,

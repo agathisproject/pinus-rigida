@@ -5,7 +5,7 @@
 #include <avr/wdt.h>
 
 #include "callback.h"
-#include "agathis/base.h"
+#include "../agathis/base.h"
 
 void cpu_init(void) {
     wdt_disable();

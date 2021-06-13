@@ -4,7 +4,6 @@
 #define UART_PP6P2STWBZYM3AAT
 
 #include <stdio.h>
-#define BAUD 115200
 #include <util/setbaud.h>
 
 void uart0_init(void);

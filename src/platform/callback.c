@@ -2,7 +2,7 @@
 
 #include "callback.h"
 
-#include "agathis/base.h"
+#include "../agathis/base.h"
 
 static uint8_t cmd_rcv = 0;
 static uint8_t cmd_buff[8] = {0, 0, 0, 0, 0, 0, 0, 0};
@@ -50,7 +50,7 @@ void rx_i2c(I2CXfer_t *i2c_xfer) {
                 break;
         }
     } else {
-        if (i2c_xfer->nb == (i2c_getRXByte(0, 1) + 2)) {
+        if (i2c_xfer->nb == (uint16_t) (i2c_getRXByte(0, 1) + 2)) {
             i2c_getRXData(0, i2c_xfer->nb, cmd_buff);
             cmd_rcv = 1;
             switch (cmd_buff[0]) {

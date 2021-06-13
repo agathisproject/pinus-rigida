@@ -16,7 +16,7 @@ set(F_CPU 16000000UL)
 # https://gcc.gnu.org/onlinedocs/gcc/AVR-Options.html
 set(MCU atmega328p)
 # Default Baudrate for UART, read avr include/util/setbaud.h for usage
-#set(BAUD 115200)
+set(BAUD 115200)
 # The programmer to use, read avrdude manual for list
 set(PROG_TYPE arduino)
 
@@ -32,23 +32,27 @@ add_definitions(
         -DF_CPU=${F_CPU}
         -DBAUD=${BAUD}
 )
-# mmcu MUST be passed to bot the compiler and linker, this handle the linker
+# mmcu MUST be passed to both the compiler and linker, this handles the linker
 set(CMAKE_EXE_LINKER_FLAGS -mmcu=${MCU})
 
 add_compile_options(
-        -mmcu=${MCU} # MCU
+        -mmcu=${MCU}
         -std=gnu99 # C99 standard
-        -Os # optimize
         -Wall # enable warnings
-        -Wno-main
+        -Wextra
         -Wundef
-        -pedantic
+        -Wshadow
+        -Wdouble-promotion
         -Wstrict-prototypes
         #-Werror
         #-Wfatal-errors
+        -Wno-main
+        -Wno-unused
+        -pedantic
         -Wl,--relax,--gc-sections
-        -g
-        -gdwarf-2
+        -Os # optimize
+        #-g # debug
+        #-gdwarf-2
         -funsigned-char # a few optimizations
         -funsigned-bitfields
         -fpack-struct
@@ -59,11 +63,15 @@ add_compile_options(
         -fno-tree-scev-cprop
 )
 
-# Create one target
+file(GLOB SRC_HW ${PROJECT_SOURCE_DIR}/src/hw/*.c)
+file(GLOB SRC_PLAT ${PROJECT_SOURCE_DIR}/src/platform/*.c)
+file(GLOB SRC_AG ${PROJECT_SOURCE_DIR}/src/agathis/*.c)
+
 add_executable(${PRODUCT_NAME}
-        src/hw/uart.c src/hw/gpio.c src/hw/i2c.c
-        src/agathis/base.c
-        src/platform.c src/callback.c src/main.c
+        ${SRC_HW}
+        ${SRC_PLAT}
+        ${SRC_AG}
+        src/main.c
         )
 
 # Rename the output to .elf as we will create multiple files
